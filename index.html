@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Technologies Kft — IT & Biztonságtechnika</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf6f4;
+  --bg2: #f2ecea;
+  --surface: #ffffff;
+  --border: rgba(100,0,20,0.09);
+  --accent: #c0002e;
+  --accent2: #8a0020;
+  --accent3: #e8004a;
+  --text: #1e0a0a;
+  --muted: #8a6060;
+  --dark-bg: #0e0407;
+  --dark-surface: #180710;
+  --dark-border: rgba(192,0,46,0.15);
+  --grad: linear-gradient(135deg, #c0002e, #e8004a, #8a0020);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor{width:10px;height:10px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .1s ease;mix-blend-mode:multiply}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(192,0,46,0.45);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:left .12s ease,top .12s ease,transform .3s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;padding:0 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,246,244,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.5px;color:#1a0808;text-decoration:none;display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:34px;height:34px;background:var(--grad);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.nav-links{display:flex;gap:36px;list-style:none;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:1.5px;background:var(--accent);transition:width .25s ease}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--grad);color:#fff!important;padding:9px 20px;border-radius:8px;font-weight:600!important;font-size:13px!important}
+.nav-cta:hover{opacity:.88}
+.nav-cta::after{display:none!important}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:88px 60px 60px;gap:60px;position:relative;overflow:hidden;z-index:1}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 10%,rgba(192,0,46,0.07) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 10% 90%,rgba(138,0,32,0.05) 0%,transparent 60%);pointer-events:none;z-index:0}
+.hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(192,0,46,0.1) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;z-index:0;opacity:.5}
+
+.hero-left{position:relative;z-index:2}
+.hero-right{position:relative;z-index:2}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,0,46,0.07);border:1px solid rgba(192,0,46,0.18);padding:7px 14px;border-radius:100px;font-size:12px;color:var(--accent);font-weight:600;margin-bottom:28px;letter-spacing:.5px;text-transform:uppercase;animation:fadeInUp .6s ease both}
+.badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease infinite;box-shadow:0 0 8px var(--accent)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+
+h1{font-family:'Syne',sans-serif;font-size:clamp(40px,5vw,70px);font-weight:800;line-height:1.0;letter-spacing:-2px;color:#1a0808;margin-bottom:24px;animation:fadeInUp .6s ease .1s both}
+.grad-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.hero-desc{font-size:17px;line-height:1.75;color:var(--muted);max-width:460px;margin-bottom:36px;animation:fadeInUp .6s ease .2s both}
+
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fadeInUp .6s ease .3s both}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--grad);color:#fff;padding:13px 26px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;box-shadow:0 4px 30px rgba(192,0,46,0.28);transition:transform .2s,box-shadow .3s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 44px rgba(192,0,46,0.44)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:var(--surface);color:#1a0808;padding:13px 26px;border-radius:10px;font-weight:500;font-size:15px;text-decoration:none;border:1.5px solid var(--border);transition:border-color .2s,color .2s,transform .2s}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+.hero-stats{display:flex;gap:40px;flex-wrap:wrap;margin-top:48px;padding-top:36px;border-top:1px solid var(--border);animation:fadeInUp .6s ease .4s both}
+.stat-num{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:#1a0808;display:block;line-height:1}
+.stat-num span{color:var(--accent)}
+.stat-label{font-size:13px;color:var(--muted);display:block;margin-top:4px}
+
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO MOCKUP */
+.hero-mockup{position:relative;animation:fadeInUp .8s ease .35s both}
+.mockup-window{background:#0e0407;border:1px solid rgba(192,0,46,0.22);border-radius:18px;overflow:hidden;box-shadow:0 28px 80px rgba(192,0,46,0.14),0 4px 20px rgba(0,0,0,.12)}
+.mockup-topbar{background:#180710;padding:13px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(192,0,46,0.12)}
+.tb-dot{width:11px;height:11px;border-radius:50%}
+.tb-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.35);margin-left:8px}
+.mockup-body{padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.mock-card{background:rgba(255,255,255,.04);border:1px solid rgba(192,0,46,.1);border-radius:10px;padding:14px}
+.mock-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.mock-val{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff}
+.mock-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px}
+.mock-status{font-size:11px;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:5px;margin-top:6px}
+.mock-dot{width:6px;height:6px;border-radius:50%;background:#00e57a;box-shadow:0 0 8px #00e57a;animation:pulse 2s ease infinite;flex-shrink:0}
+
+.mock-cam-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px}
+.mock-cam{aspect-ratio:16/9;background:rgba(192,0,46,.08);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;overflow:hidden}
+.mock-cam::after{content:'REC';position:absolute;top:3px;right:4px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#e8004a;background:rgba(232,0,74,.15);padding:1px 4px;border-radius:3px}
+
+.mock-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.mock-bar-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);width:40px;flex-shrink:0}
+.mock-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.mock-bar-fill{height:100%;border-radius:99px;background:var(--grad)}
+.mock-bar-pct{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(255,255,255,.35);width:28px;text-align:right}
+
+.float-badge{position:absolute;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 15px;box-shadow:0 8px 32px rgba(0,0,0,.1);display:flex;align-items:center;gap:10px;white-space:nowrap;z-index:10}
+.float-badge.tl{top:-18px;left:-28px;animation:floatY 4s ease-in-out infinite}
+.float-badge.br{bottom:-18px;right:-28px;animation:floatY 4s ease-in-out infinite 1.8s}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fb-icon{font-size:20px}
+.fb-text{font-size:13px;font-weight:600;color:#1a0808}
+.fb-sub{font-size:11px;color:var(--muted)}
+
+/* MARQUEE */
+.marquee-section{padding:26px 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.marquee-track{display:flex;animation:marquee 28s linear infinite}
+.marquee-item{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:14px;padding:0 32px;flex-shrink:0;border-right:1px solid var(--border)}
+.marquee-item span{width:5px;height:5px;background:var(--accent);border-radius:50%;display:inline-block;flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:100px 60px}
+.section-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.section-label::before{content:'';width:28px;height:2px;background:var(--accent);border-radius:2px}
+h2{font-family:'Syne',sans-serif;font-size:clamp(28px,3.5vw,50px);font-weight:800;line-height:1.1;letter-spacing:-1.5px;color:#1a0808;margin-bottom:14px}
+.section-desc{font-size:16px;line-height:1.75;color:var(--muted)}
+
+/* BENTO GRID */
+.bento-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-top:56px}
+.bento-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;cursor:none}
+.bento-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(192,0,46,.1);border-color:rgba(192,0,46,.22)}
+.bento-card.c2{grid-column:span 2}
+.bento-card.c3{grid-column:span 3}
+.bento-card.c4{grid-column:span 4}
+.bento-card.dark{background:#0e0407;border-color:rgba(192,0,46,.18)}
+.bento-card.dark h3{color:#fff}
+.bento-card.dark p{color:rgba(255,255,255,.42)}
+
+.bento-icon{width:48px;height:48px;background:rgba(192,0,46,.08);border:1px solid rgba(192,0,46,.14);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px;position:relative;z-index:1}
+.bento-card.dark .bento-icon{background:rgba(192,0,46,.14);border-color:rgba(192,0,46,.28)}
+.bento-card h3{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;color:#1a0808;margin-bottom:10px;position:relative;z-index:1}
+.bento-card p{font-size:14px;line-height:1.7;color:var(--muted);position:relative;z-index:1}
+.bento-tag{font-size:11px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:5px;margin-top:20px;position:relative;z-index:1}
+.bento-tag::after{content:'→'}
+.bento-card.dark .bento-tag{color:rgba(192,0,46,.7)}
+
+/* bento SVG decoration */
+.bento-deco{position:absolute;right:-10px;bottom:-10px;opacity:.1;pointer-events:none;width:160px;transition:opacity .3s}
+.bento-card:hover .bento-deco{opacity:.2}
+
+/* Camera grid */
+.cam-preview{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;position:relative;z-index:1}
+.cam-thumb{aspect-ratio:16/9;background:rgba(192,0,46,.06);border:1px solid rgba(192,0,46,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;overflow:hidden}
+.cam-thumb::after{content:'● REC';position:absolute;top:4px;left:4px;font-family:'JetBrains Mono',monospace;font-size:7px;color:#e8004a}
+
+/* Terminal */
+.bento-term{background:#080205;border-radius:10px;padding:14px;margin-top:14px;position:relative;z-index:1;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.9;border:1px solid rgba(192,0,46,.15)}
+.tl{display:flex;gap:8px}
+.tp{color:#c0002e}
+.tc{color:rgba(255,255,255,.55)}
+.to{color:rgba(255,255,255,.28);padding-left:16px}
+.tg{color:#00e57a}
+.tcursor{display:inline-block;width:7px;height:12px;background:#c0002e;vertical-align:middle;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* DARK STATS */
+.stats-dark{background:var(--dark-bg);padding:80px 60px;border-top:1px solid var(--dark-border);border-bottom:1px solid var(--dark-border);position:relative;overflow:hidden}
+.stats-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 20% 50%,rgba(192,0,46,.1) 0%,transparent 60%),radial-gradient(ellipse 40% 60% at 80% 50%,rgba(138,0,32,.07) 0%,transparent 60%);pointer-events:none}
+.stats-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;position:relative;z-index:1}
+.stat-block{text-align:center}
+.stat-big{font-family:'Syne',sans-serif;font-size:60px;font-weight:800;color:#fff;line-height:1;display:block}
+.stat-big span{color:var(--accent)}
+.stat-bar{width:32px;height:2px;background:var(--accent);border-radius:2px;margin:14px auto 10px}
+.stat-blabel{font-size:14px;color:rgba(255,255,255,.38);display:block}
+
+/* ABOUT */
+.about-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-terminal{background:#080205;border:1px solid rgba(192,0,46,.2);border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(192,0,46,.1)}
+.term-hdr{background:#180710;padding:13px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(192,0,46,.12)}
+.thd{width:11px;height:11px;border-radius:50%}
+.thd-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.3);margin-left:8px}
+.term-body{padding:22px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2}
+
+.feature-list{list-style:none;margin-top:32px}
+.feature-list li{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--muted)}
+.feature-list li:last-child{border-bottom:none}
+.feature-list .icon{width:32px;height:32px;background:rgba(192,0,46,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px}
+.feature-list strong{color:#1a0808;display:block;margin-bottom:2px;font-size:15px}
+
+/* TECH STACK */
+.tech-section{background:var(--surface)}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.tech-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;transition:transform .2s,border-color .2s,background .2s,box-shadow .2s;cursor:none}
+.tech-card:hover{transform:translateY(-4px);border-color:rgba(192,0,46,.25);background:var(--surface);box-shadow:0 8px 32px rgba(192,0,46,.08)}
+.tech-icon{font-size:34px;margin-bottom:12px}
+.tech-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#1a0808;margin-bottom:4px}
+.tech-cat{font-size:12px;color:var(--muted)}
+
+/* PROCESS */
+.process-section{background:var(--bg2);border-top:1px solid var(--border)}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:60px}
+.process-steps::before{content:'';position:absolute;top:27px;left:14%;right:14%;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3),var(--accent2));opacity:.22}
+.step{text-align:center;padding:0 24px;position:relative}
+.step-num{width:56px;height:56px;background:var(--surface);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--accent);transition:border-color .3s,background .3s}
+.step:hover .step-num{border-color:var(--accent);background:rgba(192,0,46,.08)}
+.step h4{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#1a0808;margin-bottom:8px}
+.step p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* CONTACT */
+.contact-section{background:var(--bg);border-top:1px solid var(--border)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-item{display:flex;align-items:center;gap:16px;padding:20px 0;border-bottom:1px solid var(--border)}
+.contact-item:last-child{border-bottom:none}
+.ci-icon{width:44px;height:44px;background:rgba(192,0,46,.08);border:1px solid rgba(192,0,46,.14);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ci-text strong{display:block;color:#1a0808;font-size:14px;margin-bottom:2px}
+.ci-text span{color:var(--muted);font-size:13px}
+.contact-form{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:36px}
+.contact-form h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#1a0808;margin-bottom:24px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-group{margin-bottom:14px}
+label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px}
+input,textarea,select{width:100%;background:rgba(0,0,0,.03);border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;transition:border-color .2s,background .2s;outline:none;cursor:none}
+input::placeholder,textarea::placeholder{color:var(--muted)}
+input:focus,textarea:focus{border-color:var(--accent);background:rgba(192,0,46,.04)}
+textarea{resize:vertical;min-height:100px}
+.form-submit{width:100%;background:var(--grad);color:#fff;border:none;padding:14px 28px;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:none;transition:opacity .2s,transform .2s;margin-top:6px;letter-spacing:.5px;text-transform:uppercase}
+.form-submit:hover{opacity:.88;transform:translateY(-1px)}
+
+/* FOOTER */
+footer{background:var(--dark-bg);padding:48px 60px;border-top:1px solid var(--dark-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;position:relative;z-index:1}
+.footer-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px}
+.footer-logo-icon{width:30px;height:30px;background:var(--grad);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.footer-links{display:flex;gap:28px;list-style:none}
+.footer-links a{color:rgba(255,255,255,.3);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{color:rgba(255,255,255,.2);font-size:12px}
+
+/* NAV LOGO IMAGE */
+.nav-logo-img{height:46px;width:46px;object-fit:contain;border-radius:4px}
+
+/* CAMERA SHOWCASE */
+.cam-showcase{position:relative;width:100%;height:420px;overflow:hidden;z-index:1}
+.cam-showcase-img{width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;transition:transform 8s ease}
+.cam-showcase:hover .cam-showcase-img{transform:scale(1.04)}
+.cam-showcase-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,2,5,0.82) 0%,rgba(10,2,5,0.5) 55%,rgba(10,2,5,0.15) 100%);display:flex;align-items:center;padding:0 60px}
+.cam-showcase-content{max-width:560px}
+.cam-showcase-content h2{color:#fff;margin-bottom:16px;font-size:clamp(28px,3vw,46px)}
+.cam-showcase-content .section-desc{color:rgba(255,255,255,.55);margin-bottom:32px;max-width:420px}
+.cam-live-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(232,0,74,.18);border:1px solid rgba(232,0,74,.35);color:#e8004a;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:2px;padding:6px 13px;border-radius:100px;margin-bottom:22px}
+.cam-live-dot{width:7px;height:7px;background:#e8004a;border-radius:50%;box-shadow:0 0 8px #e8004a;animation:pulse 1.5s ease infinite}
+
+/* NETWORK IMAGE CARD */
+.net-img-card{position:relative;overflow:hidden}
+.net-img-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.18;transition:opacity .4s}
+.net-img-card:hover img{opacity:.28}
+.net-img-card-overlay{position:relative;z-index:1}
+
+/* FOOTER LOGO IMAGE */
+.footer-logo-img{height:38px;width:38px;object-fit:contain;border-radius:4px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:6px;z-index:1001}
+.hamburger span{display:block;width:22px;height:2px;background:#1a0808;border-radius:2px;transition:transform .3s ease,opacity .3s ease}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── MOBILE MENU OVERLAY ── */
+.mobile-menu{position:fixed;top:68px;left:0;right:0;bottom:0;background:rgba(250,246,244,0.98);backdrop-filter:blur(28px);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;opacity:0;pointer-events:none;transform:translateY(-16px);transition:opacity .32s ease,transform .32s ease}
+.mobile-menu.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.mobile-menu a{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:#1a0808;text-decoration:none;transition:color .2s;letter-spacing:-.5px}
+.mobile-menu a:hover,.mobile-menu a:active{color:var(--accent)}
+.mobile-menu .mob-cta{background:var(--grad);color:#fff!important;padding:14px 36px;border-radius:12px;font-size:20px!important;box-shadow:0 4px 24px rgba(192,0,46,.28)}
+.mobile-menu-divider{width:40px;height:2px;background:var(--border);border-radius:2px}
+
+/* ── LARGE TABLET (≤1100px) ── */
+@media(max-width:1100px){
+  nav{padding:0 32px}
+  .hero{padding:88px 32px 56px;gap:36px}
+  section,.stats-dark{padding:80px 32px}
+  .cam-showcase-overlay{padding:0 32px}
+  .bento-grid{grid-template-columns:repeat(4,1fr)}
+  .bento-card.c3{grid-column:span 2}
+  .bento-card.c4{grid-column:span 4}
+  .stats-inner{gap:24px}
+  .stat-big{font-size:52px}
+  .about-inner{gap:48px}
+  .contact-inner{gap:48px}
+  footer{padding:40px 32px}
+}
+
+/* ── TABLET (≤900px) ── */
+@media(max-width:900px){
+  /* Kill custom cursor on touch */
+  .cursor,.cursor-ring{display:none!important}
+  body,a,button,input,textarea,select{cursor:auto!important}
+
+  /* NAV */
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+
+  /* HERO */
+  .hero{grid-template-columns:1fr;padding:80px 20px 52px;min-height:auto;gap:0}
+  .hero-right{display:none}
+  .hero-stats{gap:28px}
+
+  /* SECTIONS */
+  section{padding:64px 20px}
+  .stats-dark{padding:60px 20px}
+  .cam-showcase{height:340px}
+  .cam-showcase-overlay{padding:0 20px}
+  .cam-showcase-content p{display:none}
+
+  /* BENTO */
+  .bento-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .bento-card.c2{grid-column:span 1}
+  .bento-card.c3,.bento-card.c4{grid-column:span 2}
+  .bento-card{padding:24px}
+
+  /* STATS */
+  .stats-inner{grid-template-columns:1fr 1fr;gap:32px}
+  .stat-big{font-size:44px}
+
+  /* ABOUT */
+  .about-inner{grid-template-columns:1fr;gap:32px}
+
+  /* TECH */
+  .tech-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+
+  /* PROCESS */
+  .process-steps{grid-template-columns:1fr 1fr;gap:24px 0}
+  .process-steps::before{display:none}
+
+  /* CONTACT */
+  .contact-inner{grid-template-columns:1fr;gap:32px}
+
+  /* FOOTER */
+  footer{flex-direction:column;text-align:center;padding:36px 20px;gap:20px}
+  .footer-links{flex-wrap:wrap;justify-content:center;gap:16px}
+}
+
+/* ── MOBILE (≤600px) ── */
+@media(max-width:600px){
+  /* HERO */
+  h1{letter-spacing:-1.5px}
+  .hero-badge{font-size:10px}
+  .hero-actions{flex-direction:column}
+  .btn-primary,.btn-secondary{width:100%;justify-content:center}
+  .hero-stats{gap:20px}
+  .stat-num{font-size:28px}
+
+  /* SECTIONS */
+  section{padding:52px 16px}
+  .stats-dark{padding:52px 16px}
+  h2{letter-spacing:-1px}
+  .section-label{font-size:10px}
+
+  /* BENTO: single column */
+  .bento-grid{grid-template-columns:1fr}
+  .bento-card.c2,.bento-card.c3,.bento-card.c4{grid-column:span 1}
+  .bento-term{display:none}
+  .cam-preview{grid-template-columns:1fr 1fr}
+
+  /* STATS */
+  .stats-inner{grid-template-columns:1fr 1fr;gap:24px}
+  .stat-big{font-size:38px}
+  .stat-blabel{font-size:12px}
+
+  /* PROCESS: single column */
+  .process-steps{grid-template-columns:1fr;gap:12px}
+  .step{text-align:left;display:flex;gap:16px;align-items:flex-start;padding:0}
+  .step-num{margin:0;flex-shrink:0;width:44px;height:44px;font-size:15px}
+  .step h4{margin-bottom:4px}
+
+  /* TECH */
+  .tech-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .tech-card{padding:18px 14px}
+  .tech-icon{font-size:26px;margin-bottom:8px}
+
+  /* SHOWCASE */
+  .cam-showcase{height:260px}
+  .cam-showcase-content h2{font-size:22px}
+  .cam-live-badge{font-size:10px}
+
+  /* FORM */
+  .form-row{grid-template-columns:1fr}
+  .contact-form{padding:24px 20px}
+
+  /* FOOTER */
+  footer{padding:32px 16px}
+  .footer-links{gap:12px}
+  .footer-links a{font-size:12px}
+}
+
+/* ── SMALL PHONE (≤400px) ── */
+@media(max-width:400px){
+  .hero{padding:72px 14px 44px}
+  section{padding:44px 14px}
+  .stats-dark{padding:44px 14px}
+  .stat-big{font-size:34px}
+  .bento-card{padding:20px}
+  .stats-inner{grid-template-columns:1fr 1fr;gap:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="NT logó" class="nav-logo-img">
+    NetworkTech
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Szolgáltatások</a></li>
+    <li><a href="#about">Rólunk</a></li>
+    <li><a href="#tech">Technológiák</a></li>
+    <li><a href="#process">Folyamat</a></li>
+    <li><a href="#contact" class="nav-cta">Kapcsolat</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" onclick="closeMobile()">Szolgáltatások</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#about" onclick="closeMobile()">Rólunk</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#tech" onclick="closeMobile()">Technológiák</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#process" onclick="closeMobile()">Folyamat</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#contact" class="mob-cta" onclick="closeMobile()">Kapcsolat →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      15+ év tapasztalat — Kecskemét
+    </div>
+    <h1>
+      Megbízható<br>
+      <span class="grad-text">IT megoldások</span><br>
+      vállalkozásodnak
+    </h1>
+    <p class="hero-desc">
+      Informatikai hálózatépítéstől a biztonságtechnikáig — komplex megoldásokat nyújtunk, hogy Te az üzletedre koncentrálhass.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Ajánlatot kérek
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#services" class="btn-secondary">
+        Szolgáltatásaink
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-num">15<span>+</span></span><span class="stat-label">Év tapasztalat</span></div>
+      <div><span class="stat-num">200<span>+</span></span><span class="stat-label">Elégedett ügyfél</span></div>
+      <div><span class="stat-num">24<span>/7</span></span><span class="stat-label">Elérhetőség</span></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-mockup">
+      <div class="float-badge tl">
+        <span class="fb-icon">✅</span>
+        <div><div class="fb-text">Rendszer aktív</div><div class="fb-sub">99.8% uptime</div></div>
+      </div>
+      <div class="float-badge br">
+        <span class="fb-icon">🔒</span>
+        <div><div class="fb-text">Védett hálózat</div><div class="fb-sub">0 incidens ma</div></div>
+      </div>
+      <div class="mockup-window">
+        <div class="mockup-topbar">
+          <div class="tb-dot" style="background:#ff5f57"></div>
+          <div class="tb-dot" style="background:#ffc82d"></div>
+          <div class="tb-dot" style="background:#28c840"></div>
+          <span class="tb-title">NetworkTech — Vezérlőpult v2.4</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mock-card">
+            <div class="mock-label">Uptime</div>
+            <div class="mock-val">99.8<span style="font-size:13px;color:rgba(255,255,255,.35)">%</span></div>
+            <div class="mock-status"><span class="mock-dot"></span>Hálózat aktív</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-label">Riasztások</div>
+            <div class="mock-val" style="color:#00e57a">0</div>
+            <div class="mock-sub" style="margin-top:8px">Nincs aktív incidens</div>
+          </div>
+          <div class="mock-card" style="grid-column:span 2">
+            <div class="mock-label">IP Kamera — Live Feed</div>
+            <div class="mock-cam-grid">
+              <div class="mock-cam">📹</div>
+              <div class="mock-cam">📷</div>
+            </div>
+          </div>
+          <div class="mock-card" style="grid-column:span 2">
+            <div class="mock-label">Hálózati terhelés</div>
+            <div style="margin-top:10px">
+              <div class="mock-bar-row"><span class="mock-bar-lbl">WAN</span><div class="mock-bar-track"><div class="mock-bar-fill" style="width:72%"></div></div><span class="mock-bar-pct">72%</span></div>
+              <div class="mock-bar-row"><span class="mock-bar-lbl">LAN</span><div class="mock-bar-track"><div class="mock-bar-fill" style="width:45%"></div></div><span class="mock-bar-pct">45%</span></div>
+              <div class="mock-bar-row"><span class="mock-bar-lbl">VPN</span><div class="mock-bar-track"><div class="mock-bar-fill" style="width:31%"></div></div><span class="mock-bar-pct">31%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span></span>Cisco</div>
+    <div class="marquee-item"><span></span>Hikvision</div>
+    <div class="marquee-item"><span></span>Fortinet</div>
+    <div class="marquee-item"><span></span>Ubiquiti</div>
+    <div class="marquee-item"><span></span>Dahua</div>
+    <div class="marquee-item"><span></span>MikroTik</div>
+    <div class="marquee-item"><span></span>Axis</div>
+    <div class="marquee-item"><span></span>Honeywell</div>
+    <div class="marquee-item"><span></span>Microsoft</div>
+    <div class="marquee-item"><span></span>VMware</div>
+    <div class="marquee-item"><span></span>Cisco</div>
+    <div class="marquee-item"><span></span>Hikvision</div>
+    <div class="marquee-item"><span></span>Fortinet</div>
+    <div class="marquee-item"><span></span>Ubiquiti</div>
+    <div class="marquee-item"><span></span>Dahua</div>
+    <div class="marquee-item"><span></span>MikroTik</div>
+    <div class="marquee-item"><span></span>Axis</div>
+    <div class="marquee-item"><span></span>Honeywell</div>
+    <div class="marquee-item"><span></span>Microsoft</div>
+    <div class="marquee-item"><span></span>VMware</div>
+  </div>
+</div>
+
+<!-- SERVICES BENTO -->
+<section id="services">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:0">
+    <div>
+      <div class="section-label">Amit kínálunk</div>
+      <h2>Komplex IT &<br>biztonsági megoldások</h2>
+    </div>
+    <p class="section-desc" style="max-width:380px">Mindent egy helyen — hálózattervezéstől kamerarendszer-telepítésig, tapasztalt csapattal.</p>
+  </div>
+
+  <div class="bento-grid reveal">
+
+    <!-- Hálózatépítés — large dark with real image -->
+    <div class="bento-card c3 dark net-img-card">
+      <img src="network.jpg" alt="Hálózat">
+      <div class="net-img-card-overlay">
+        <div class="bento-icon">🌐</div>
+        <h3>Hálózatépítés</h3>
+        <p>Strukturált adathálózat kiépítése irodai és ipari környezetben, aktív és passzív elemek telepítésével.</p>
+        <div class="bento-tag">Részletek</div>
+      </div>
+    </div>
+
+    <!-- IT Karbantartás -->
+    <div class="bento-card c3">
+      <div class="bento-icon">🖥️</div>
+      <h3>IT Karbantartás</h3>
+      <p>Rendszeres szerverüzemeltetés, munkaállomás-kezelés és helpdesk szolgáltatás.</p>
+      <div class="bento-term">
+        <div class="tl"><span class="tp">$</span><span class="tc"> systemctl status network</span></div>
+        <div class="to tg">● network — aktív (running)</div>
+        <div class="tl"><span class="tp">$</span><span class="tc"> uptime</span></div>
+        <div class="to" style="color:rgba(255,255,255,.28)">99.8% — 15 days, 4:22</div>
+        <div class="tl"><span class="tp">$</span><span class="tcursor"></span></div>
+      </div>
+      <div class="bento-tag">Részletek</div>
+    </div>
+
+    <!-- IP Kamera -->
+    <div class="bento-card c2">
+      <div class="bento-icon">📹</div>
+      <h3>IP Kamerarendszer</h3>
+      <p>HD és 4K IP kamerák, rögzítő-rendszer, táv-monitorozás.</p>
+      <div class="cam-preview">
+        <div class="cam-thumb">📹</div>
+        <div class="cam-thumb">📷</div>
+        <div class="cam-thumb">🎥</div>
+        <div class="cam-thumb">📸</div>
+      </div>
+      <div class="bento-tag">Részletek</div>
+    </div>
+
+    <!-- VPN & Cloud -->
+    <div class="bento-card c2 dark">
+      <div class="bento-icon">☁️</div>
+      <h3>VPN & Cloud</h3>
+      <p>Biztonságos távoli hozzáférés, felhőalapú infrastruktúra tervezése és migrálása.</p>
+      <div class="bento-tag">Részletek</div>
+    </div>
+
+    <!-- Beléptető -->
+    <div class="bento-card c2">
+      <div class="bento-icon">🔐</div>
+      <h3>Beléptető rendszer</h3>
+      <p>Kártyás és biometrikus beléptetők, munkaidő-nyilvántartás.</p>
+      <div class="bento-tag">Részletek</div>
+    </div>
+
+    <!-- Tűz -->
+    <div class="bento-card c2 dark">
+      <div class="bento-icon">🚨</div>
+      <h3>Tűz & riasztó</h3>
+      <p>Tűzjelzők, betörésjelzők, hang- és fény-szirénák tervezése és üzembe helyezése.</p>
+      <div class="bento-tag">Részletek</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CAMERA SHOWCASE -->
+<div class="cam-showcase">
+  <img src="camera.png" alt="IP Kamera rendszer" class="cam-showcase-img">
+  <div class="cam-showcase-overlay">
+    <div class="cam-showcase-content">
+      <div class="cam-live-badge"><span class="cam-live-dot"></span>LIVE MONITORING</div>
+      <h2>Profi megfigyelés,<br><span class="grad-text">bárhonnan elérhető</span></h2>
+      <p class="section-desc">HD és 4K felbontású IP kamerarendszerek telepítése — táv-monitorozással, mozgásérzékelővel és felhőalapú rögzítéssel.</p>
+      <a href="#contact" class="btn-primary">
+        Kamerarendszer ajánlat
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- DARK STATS -->
+<div class="stats-dark reveal">
+  <div class="stats-inner">
+    <div class="stat-block">
+      <span class="stat-big">15<span>+</span></span>
+      <div class="stat-bar"></div>
+      <span class="stat-blabel">Év tapasztalat az IT szektorban</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-big">200<span>+</span></span>
+      <div class="stat-bar"></div>
+      <span class="stat-blabel">Elégedett ügyfél Kecskemét régióban</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-big">24<span style="font-size:36px">/7</span></span>
+      <div class="stat-bar"></div>
+      <span class="stat-blabel">Sürgős ügyeleti elérhetőség</span>
+    </div>
+    <div class="stat-block">
+      <span class="stat-big">99<span style="font-size:36px">.8%</span></span>
+      <div class="stat-bar"></div>
+      <span class="stat-blabel">Hálózati megbízhatóság</span>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="about-inner">
+    <div class="reveal">
+      <div class="about-terminal">
+        <div class="term-hdr">
+          <div class="thd" style="background:#ff5f57"></div>
+          <div class="thd" style="background:#ffc82d"></div>
+          <div class="thd" style="background:#28c840"></div>
+          <span class="thd-title">networktch@kecskemét ~ $</span>
+        </div>
+        <div class="term-body">
+          <div class="tl"><span class="tp">$</span><span class="tc"> whoami</span></div>
+          <div class="to tg">NetworkTech Kft — IT & Biztonságtechnika</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"> cat about.txt</span></div>
+          <div class="to">Alapítva: 2009 | Tapasztalat: 15+ év</div>
+          <div class="to">Szakterület: Hálózat, Kamera, Beléptető, Tűz</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"> uptime --clients</span></div>
+          <div class="to tg">200+ aktív ügyfél | 97% elégedettség</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"> ping response.avg</span></div>
+          <div class="to" style="color:#ffd700">PONG — ~2h átlagos reagálási idő</div>
+          <div class="tl"><span class="tp">$</span><span class="tc"> systemctl status NetworkTech</span></div>
+          <div class="to tg">● Aktív — minden rendszer OK</div>
+          <div class="tl"><span class="tp">$</span><span class="tcursor"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="section-label">Rólunk</div>
+      <h2>Több mint 15 év az IT és biztonság terén</h2>
+      <p class="section-desc">Célunk, hogy ügyfeleink zökkenőmentesen tudjanak a mindennapi feladataikra koncentrálni — az informatika nehézségei ne hátráltassák őket.</p>
+      <ul class="feature-list">
+        <li>
+          <div class="icon">⚡</div>
+          <div><strong>Gyors reagálás</strong>Hibák esetén gyorsan és hatékonyan avatkozunk közbe, minimalizálva az állásidőt.</div>
+        </li>
+        <li>
+          <div class="icon">🎯</div>
+          <div><strong>Testreszabott megoldások</strong>Nem általános csomagokat adunk, hanem a te igényeidre szabott rendszereket tervezünk.</div>
+        </li>
+        <li>
+          <div class="icon">🤝</div>
+          <div><strong>Hosszú távú partnerség</strong>Ügyfeleink többsége évek óta bíz bennünk — ez a legjobb referencia.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="tech" class="tech-section">
+  <div style="text-align:center">
+    <div class="section-label" style="justify-content:center">Technológiák</div>
+    <h2>Ismert márkák, bevált megoldások</h2>
+    <p class="section-desc" style="margin:0 auto;text-align:center;max-width:440px">Csak megbízható, ipari minőségű eszközökkel és szoftverekkel dolgozunk.</p>
+  </div>
+  <div class="tech-grid reveal">
+    <div class="tech-card"><div class="tech-icon">🔵</div><div class="tech-name">Cisco</div><div class="tech-cat">Hálózat</div></div>
+    <div class="tech-card"><div class="tech-icon">📷</div><div class="tech-name">Hikvision</div><div class="tech-cat">IP Kamera</div></div>
+    <div class="tech-card"><div class="tech-icon">🛡️</div><div class="tech-name">Fortinet</div><div class="tech-cat">Tűzfal / VPN</div></div>
+    <div class="tech-card"><div class="tech-icon">📡</div><div class="tech-name">Ubiquiti</div><div class="tech-cat">WiFi / LAN</div></div>
+    <div class="tech-card"><div class="tech-icon">📹</div><div class="tech-name">Dahua</div><div class="tech-cat">CCTV</div></div>
+    <div class="tech-card"><div class="tech-icon">🔧</div><div class="tech-name">MikroTik</div><div class="tech-cat">Router / Switch</div></div>
+    <div class="tech-card"><div class="tech-icon">🔒</div><div class="tech-name">Axis</div><div class="tech-cat">Beléptető</div></div>
+    <div class="tech-card"><div class="tech-icon">☁️</div><div class="tech-name">Microsoft 365</div><div class="tech-cat">Cloud</div></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process" class="process-section">
+  <div style="text-align:center">
+    <div class="section-label" style="justify-content:center">Hogyan dolgozunk</div>
+    <h2>Egyszerű, átlátható folyamat</h2>
+    <p class="section-desc" style="margin:0 auto;text-align:center">Négy lépésben a teljesen üzemkész rendszerig — meglepetés nélkül.</p>
+  </div>
+  <div class="process-steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Igényfelmérés</h4>
+      <p>Megismerjük az üzleti céljaidat és a jelenlegi infrastruktúrát.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Tervezés</h4>
+      <p>Részletes megoldási terv és árajánlat, amit közösen megvitattunk.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Telepítés</h4>
+      <p>Szakszerű kivitelezés, minimális zavarással a munkamenetedben.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>Támogatás</h4>
+      <p>Folyamatos üzemeltetési támogatás és karbantartás a beüzemelés után.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">Kapcsolat</div>
+      <h2>Kezdjük el együtt!</h2>
+      <p class="section-desc" style="margin-bottom:0">Vedd fel velünk a kapcsolatot — 24 órán belül visszakeresünk személyre szabott ajánlattal.</p>
+      <div style="margin-top:32px">
+        <div class="contact-item">
+          <div class="ci-icon">📍</div>
+          <div class="ci-text"><strong>Cím</strong><span>6000 Kecskemét, Irinyi u. 17/C (Albacomp Irodaház)</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">📞</div>
+          <div class="ci-text"><strong>Telefon</strong><span>+36 70 264 00 96</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">✉️</div>
+          <div class="ci-text"><strong>E-mail</strong><span>info@networktch.com</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">⏰</div>
+          <div class="ci-text"><strong>Nyitvatartás</strong><span>H–P: 8:00–17:00 · Sürgős esetben: 24/7</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3>Küldjön üzenetet</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Neve</label>
+          <input type="text" placeholder="Kovács János">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@ceg.hu">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Telefonszám</label>
+        <input type="tel" placeholder="+36 70 ...">
+      </div>
+      <div class="form-group">
+        <label>Szolgáltatás</label>
+        <select>
+          <option value="">Válasszon...</option>
+          <option>Hálózatépítés</option>
+          <option>IT Karbantartás</option>
+          <option>IP Kamerarendszer</option>
+          <option>Beléptető rendszer</option>
+          <option>Tűz &amp; riasztó</option>
+          <option>Egyéb</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Üzenet</label>
+        <textarea placeholder="Röviden írja le az igényét..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit(event)">Üzenet küldése →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="logo.png" alt="NT logó" class="footer-logo-img">
+    NetworkTech Kft
+    <span style="color:rgba(255,255,255,.25);font-weight:400;font-family:'DM Sans',sans-serif;font-size:13px">— Kecskemét</span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Adatkezelési tájékoztató</a></li>
+    <li><a href="#">Adatvédelmi nyilatkozat</a></li>
+    <li><a href="#">Elállási nyilatkozat</a></li>
+    <li><a href="https://facebook.com/networktechnologieskft" target="_blank">Facebook</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 Network Technologies Kft — Minden jog fenntartva.</div>
+</footer>
+
+<script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Close on resize back to desktop
+  window.addEventListener('resize', () => { if (window.innerWidth > 900) closeMobile(); });
+
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX - 5 + 'px';
+    cursor.style.top = e.clientY - 5 + 'px';
+    ring.style.left = e.clientX - 18 + 'px';
+    ring.style.top = e.clientY - 18 + 'px';
+  });
+  document.querySelectorAll('a,button,.bento-card,.tech-card,input,textarea,select').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.transform = 'scale(2)'; ring.style.transform = 'scale(1.4)'; });
+    el.addEventListener('mouseleave', () => { cursor.style.transform = 'scale(1)'; ring.style.transform = 'scale(1)'; });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    const btn = e.target;
+    btn.textContent = '✓ Üzenet elküldve!';
+    btn.style.background = 'linear-gradient(135deg,#00e57a,#00b860)';
+    setTimeout(() => { btn.textContent = 'Üzenet küldése →'; btn.style.background = ''; }, 3000);
+  }
+</script>
+</body>
+</html>
