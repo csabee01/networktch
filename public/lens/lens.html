@@ -1,0 +1,941 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//HU" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+
+  <title>Network Technologies</title>
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/font-awesome/css/font-awesome.css">
+  <script type="text/javascript" src="./code.jquery.com/jquery-latest.min.js"></script>
+  <script>
+    window.localStorage.clear();
+    localStorage.clear();
+    var vflag = false;
+    var vlast = "distance";
+  </script>
+
+  <script id="xml-appPictures-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data dir="./image/">
+      <application display="Outdoor parking lot" set="1" selected="1" description="Parking lot">
+        <resolution_images>
+          <resImage file="wes_res1000.jpg" resolution="1000" />
+          <resImage file="wes_res400.jpg" resolution="400" />
+          <resImage file="wes_res120.jpg" resolution="120" />
+          <resImage file="wes_res40.jpg" resolution="40" />
+          <resImage file="wes_res12.jpg" resolution="12" />
+        </resolution_images>
+        <background_image>
+          <bkgImage file="wes_FOV_bkg.jpg" />
+        </background_image>
+        <FOV_image>
+          <FOVImage file="wes_FOV.jpg" />
+        </FOV_image>
+        <sample_image>
+          <sampleImage file="wes_sample.jpg" />
+        </sample_image>
+      </application>
+
+
+    </data>
+  </script>
+
+
+  <script id="xml-camera-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data>
+    <camera>
+      <camera display="20MP" value="20" hpixels="5152" vpixels="3864" nomSize="2.3" pitch="1.2" />
+      <!--<camera display="16MP" value="16" hpixels="4608" vpixels="3456" nomSize="2.3" pitch="1.34" />-->
+      <!--<camera display="14MP" value="14" hpixels="4416" vpixels="3312" nomSize="2.3" pitch="1.4" />-->
+      <camera display="12MP" value="12" hpixels="4224" vpixels="3000" nomSize="2.5" pitch="1.4" />
+      <!--<camera display="Ultra HD" value="10" hpixels="3840" vpixels="2560" nomSize="2.3" pitch="1.67" />-->
+      <camera display="4k" value="9" hpixels="4096" vpixels="2160" nomSize="2.3" pitch="1.67" />
+      <camera display="6MP" value="6" hpixels="3096" vpixels="2080" nomSize="1.8" pitch="2.4" />
+      <camera display="5MP" value="5" hpixels="2592" vpixels="1944" nomSize="2.5" pitch="2.2" />
+      <camera display="3MP" value="3" hpixels="2048" vpixels="1536" nomSize="3.2" pitch="2.2" />
+      <camera display="1080 HD" value="2" hpixels="1920" vpixels="1080" nomSize="2.7" pitch="3" />
+      <camera display="2MP" value="2" hpixels="1600" vpixels="1200" nomSize="3.2" pitch="2.8" />
+      <camera display="1.3MP" value="1.3" hpixels="1305" vpixels="1049" nomSize="3" pitch="3.75" />
+      <camera display="720p" value="0.9" hpixels="1280" vpixels="720" nomSize="3" pitch="4.2" />
+      <camera display="VGA" value="0.3" hpixels="640" vpixels="480" nomSize="3" pitch="7.5" />
+    </camera>
+    <sensor>
+      <sensor value="0.75" nomDiagonal="22.5" minDiagonal="21.6" maxDiagonal="23.4" display="4/3" />
+      <sensor value="1" nomDiagonal="16" minDiagonal="15.36" maxDiagonal="16.64" display="1" />
+      <sensor value="1.5" nomDiagonal="11" minDiagonal="10.56" maxDiagonal="11.44" display="2/3" />
+      <sensor value="1.7" nomDiagonal="9.4" minDiagonal="9.2" maxDiagonal="9.9" display="1/1.7" />
+      <sensor value="1.8" nomDiagonal="8.933" minDiagonal="8.48" maxDiagonal="9.19" display="1/1.8" />
+      <sensor value="2" nomDiagonal="8" minDiagonal="7.65" maxDiagonal="8.4" display="1/2" />
+      <sensor value="2.3" nomDiagonal="7.5" minDiagonal="7.4" maxDiagonal="7.65" display="1/2.3" />
+      <sensor value="2.5" nomDiagonal="7.182" minDiagonal="7" maxDiagonal="7.4" display="1/2.5" />
+      <sensor value="2.7" nomDiagonal="6.721" minDiagonal="6.37" maxDiagonal="7" display="1/2.7" />
+      <sensor value="3" nomDiagonal="6" minDiagonal="5.78" maxDiagonal="6.37" display="1/3" />
+      <sensor value="3.2" nomDiagonal="5.68" minDiagonal="5.5096" maxDiagonal="5.78" display="1/3.2" />
+      <sensor value="3.6" nomDiagonal="5" minDiagonal="4.8" maxDiagonal="5.2" display="1/3.6" />
+      <sensor value="4" nomDiagonal="4.5" minDiagonal="4.275" maxDiagonal="4.8" display="1/4" />
+      <sensor value="custom" nomDiagonal="0" minDiagonal="0" maxDiagonal="100" display="Custom" />
+    </sensor>
+    </data>
+  </script>
+
+
+  <script id="xml-constants-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data>
+      <personHt>0</personHt>
+    </data>
+  </script>
+
+
+  <script id="xml-factory_default-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data>
+      <camera value="1080 HD" />
+        <!-- see camera.xml for options -->
+      <lens value="183" />
+        <!-- see lenses.xml for options -->
+      <lensFL value="1.8" />
+      <units value="ft" />
+      <cameraHt value="0" />
+      <appSet value="1" />
+        <!-- see appPictures.xml for options -->
+      <results value="3" />
+        <!-- resutls module bit values -->
+        <!-- 1: resolution -->
+        <!-- 2: FOV -->
+        <!-- 4: elevation view -->
+        <!-- value = module 1 bit value - module 2 bit value -->
+        <!--   value can be negative depending on results module order -->
+      <paramFixed value="3" />
+        <!-- fixed parameters bit values -->
+        <!-- 1: fixed lens choice -->
+        <!-- 2: fixed object distance -->
+        <!-- 4: fixed image resolution -->
+        <!-- 8: fixed image FOV -->
+        <!-- value = fixed parameter 1 bit value + fixed parameter 2 bit value -->
+      <paramValue1 value="10" />
+      <paramValue2 value="10" />
+      <personHt>0</personHt>
+      <hFov>116</hFov>
+      <vFov>84</vFov>
+      <distance>33</distance>
+      <resolution>18</resolution>
+      <fov>106</fov>
+      <conversion>3.280</conversion>
+    </data>
+  </script>
+
+
+  <script id="xml-lenses-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data>
+
+      <lens display="SY125/MY125" value="125" Theia="true" flMin="1.28" flMax="1.28">
+        <desc>Theia ultra wide fixed focal length lens using Linear Optical Technology&#174;, 5MP, F/1.8, up to 1/2.5&quot; sensor</desc>
+        <q1a>0</q1a>	<q1b>-0.034352974</q1b>
+        <q2a>0</q2a>	<q2b>0.332465407</q2b>
+        <q3a>0</q3a>	<q3b>-0.578559279</q3b>
+        <q4a>0</q4a>	<q4b>0.169311488</q4b>
+        <d1>-0.11</d1>
+        <d2>0</d2>
+        <d3>0</d3>
+        <i1a>0</i1a>     <i1b>-0.03786796</i1b>
+        <i2a>0</i2a>     <i2b>0.42907868</i2b>
+        <i3a>0</i3a>     <i3b>-0.90533313</i3b>
+        <i4a>0</i4a>     <i4b>0.40329754</i4b>
+      </lens>
+
+      <lens display="SY110/MY110" value="110" Theia="true" flMin="1.68" flMax="1.68">
+        <desc>Theia ultra wide fixed focal length lens using Linear Optical Technology&#174;, 3MP, F/1.8, 1/3&quot; sensor</desc>
+        <q1a>0</q1a>	<q1b>0</q1b>
+        <q2a>0</q2a>	<q2b>0</q2b>
+        <q3a>0</q3a>	<q3b>0</q3b>
+        <q4a>0</q4a>	<q4b>0</q4b>
+        <d1>0</d1>
+        <d2>0</d2>
+        <d3>0</d3>
+        <i1a>0</i1a>     <i1b>0</i1b>
+        <i2a>0</i2a>     <i2b>0</i2b>
+        <i3a>0</i3a>     <i3b>0</i3b>
+        <i4a>0</i4a>     <i4b>0</i4b>
+      </lens>
+
+      <lens display="SL183/ML183" value="183" selected="true" Theia="true" flMin="1.8" flMax="3">
+        <desc>Theia ultra wide varifocal using Linear Optical Technology&#174;, 5MP, F/1.8, up to 1/2.5&quot; sensor</desc>
+        <q1a>0</q1a>     <q1b>-0.00074969</q1b>
+        <q2a>0</q2a>     <q2b>-0.03842688</q2b>
+        <q3a>0</q3a>     <q3b>0.10622407</q3b>
+        <q4a>0</q4a>     <q4b>-0.06496311</q4b>
+        <d1>0.003</d1>
+        <d2>0</d2>
+        <d3>0</d3>
+        <i1a>0</i1a>     <i1b>0.00053197</i1b>
+        <i2a>0</i2a>     <i2b>-0.00643872</i2b>
+        <i3a>0</i3a>     <i3b>0.00955333</i3b>
+        <i4a>0</i4a>     <i4b>-0.00005431</i4b>
+      </lens>
+
+      <lens display="SL410/TL410" value="410" Theia="true" flMin="4" flMax="10">
+        <desc>Theia mid range focal length lens, 4K, F/1.4, up to 1/1.7&quot; sensor</desc>
+        <q1a>0.00615357</q1a>     <q1b>-0.00126793</q1b>
+        <q2a>0.85790510</q2a>     <q2b>-0.00232220</q2b>
+        <q3a>-0.58120596</q3a>     <q3b>-0.09011341</q3b>
+        <q4a>0.71387995</q4a>     <q4b>0.09334221</q4b>
+        <d1>-5.590666209</d1>
+        <d2>0.060254846</d2>
+        <d3>9.968600346</d3>
+        <i1a>-0.00068030</i1a>     <i1b>0.00152267</i1b>
+        <i2a>2.64687450</i2a>     <i2b>0.16021357</i2b>
+        <i3a>-2.62013386</i3a>     <i3b>-0.28461196</i3b>
+        <i4a>0.97420071</i4a>     <i4b>0.12292240</i4b>
+      </lens>
+
+      <lens display="ML610" value="610" Theia="true" flMin="6" flMax="10">
+        <!-- values copied from SL410 -->
+        <desc>Theia 2/3&quot; machine vision lens, 4K, F/1.6, up to 2/3&quot; sensor</desc>
+        <q1a>0.00615357</q1a>     <q1b>-0.00126793</q1b>
+        <q2a>0.85790510</q2a>     <q2b>-0.00232220</q2b>
+        <q3a>-0.58120596</q3a>     <q3b>-0.09011341</q3b>
+        <q4a>0.71387995</q4a>     <q4b>0.09334221</q4b>
+        <d1>-5.590666209</d1>
+        <d2>0.060254846</d2>
+        <d3>9.968600346</d3>
+        <i1a>-0.00068030</i1a>     <i1b>0.00152267</i1b>
+        <i2a>2.64687450</i2a>     <i2b>0.16021357</i2b>
+        <i3a>-2.62013386</i3a>     <i3b>-0.28461196</i3b>
+        <i4a>0.97420071</i4a>     <i4b>0.12292240</i4b>
+      </lens>
+
+      <lens display="SL940" value="940" Theia="true" flMin="9" flMax="40">
+        <desc>Theia compact telephoto, 5MP, F/1.5, up to 1/2.5&quot; sensor</desc>
+        <q1a>-0.01473053</q1a>     <q1b>-0.00000383</q1b>
+        <q2a>1.00597914</q2a>     <q2b>0.00314197</q2b>
+        <q3a>-0.30685065</q3a>     <q3b>0.00051865</q3b>
+        <q4a>0.34893841</q4a>     <q4b>-0.00135609</q4b>
+        <d1>-0.166864524</d1>
+        <d2>0.049187279</d2>
+        <d3>1.997244241</d3>
+        <i1a>0.07294672</i1a>     <i1b>0.00724504</i1b>
+        <i2a>0.64469422</i2a>     <i2b>-0.03483916</i2b>
+        <i3a>0.58166808</i3a>     <i3b>0.06318823</i3b>
+        <i4a>-0.26683265</i4a>     <i4b>-0.03341526</i4b>
+      </lens>
+
+      <lens display="SL1250/TL1250" value="1250" Theia="true" flMin="12" flMax="50">
+        <desc>Theia compact telephoto, 4K, F/1.5, up to 1/1.7&quot; sensor</desc>
+        <q1a>-0.00935103</q1a>     <q1b>0.00050664</q1b>
+        <q2a>0.94541716</q2a>     <q2b>-0.00174476</q2b>
+        <q3a>-0.18113454</q3a>     <q3b>0.00941622</q3b>
+        <q4a>0.24487612</q4a>     <q4b>-0.00816599</q4b>
+        <d1>-0.579517374</d1>
+        <d2>0.130064344</d2>
+        <d3>2.221506299</d3>
+        <i1a>0.00091919</i1a>     <i1b>0.00045031</i1b>
+        <i2a>1.01396666</i2a>     <i2b>-0.00272420</i2b>
+        <i3a>0.00370213</i3a>     <i3b>0.00818919</i3b>
+        <i4a>-0.01850602</i4a>     <i4b>-0.00590391</i4b>
+      </lens>
+
+      <lens display="Other standard lens" value="001" Theia="false" flMin="2" flMax="15">
+        <desc>Typical wide angle lens with barrel distortion which will decrease image resolution.</desc>
+        <q1a>-0.115365071</q1a>	<q1b>0.000470536</q1b>
+        <q2a>1.766104352</q2a>	<q2b>-0.002494963</q2b>
+        <q3a>-2.602561995</q3a>	<q3b>0.00424717</q3b>
+        <q4a>1.947586693</q4a>	<q4b>-0.002270297</q4b>
+        <d1>-0.648605906</d1>
+        <d2>0.504194903</d2>
+        <d3>2.331151385</d3>
+        <i1a>0.09809549</i1a>     <i1b>0.01489860</i1b>
+        <i2a>2.03616850</i2a>     <i2b>0.28947987</i2b>
+        <i3a>-1.50894093</i3a>     <i3b>-0.35116442</i3b>
+        <i4a>0.37512150</i4a>     <i4b>0.04647338</i4b>
+      </lens>
+
+      <lens display="Other tele lens" value="002" Theia="false" flMin="9" flMax="2000">
+        <desc>Typical telephoto lens which may or may not have barrel distortion (none assumed).</desc>
+        <q1a>0</q1a>	<q1b>0</q1b>
+        <q2a>0</q2a>	<q2b>0</q2b>
+        <q3a>0</q3a>	<q3b>0</q3b>
+        <q4a>0</q4a>	<q4b>0</q4b>
+        <d1>0</d1>
+        <d2>0</d2>
+        <d3>0</d3>
+        <i1a>0</i1a>     <i1b>0</i1b>
+        <i2a>0</i2a>     <i2b>0</i2b>
+        <i3a>0</i3a>     <i3b>0</i3b>
+        <i4a>0</i4a>     <i4b>0</i4b>
+      </lens>
+
+    </data>
+  </script>
+
+
+  <script id="xml-units-xml" type="text/xmldata"><?xml version="1.0" encoding="utf-8"?>
+    <data>
+      <units name="Meters: m" symbol="m" conversion="1" />
+      <units name="Feet: ft" symbol="ft" conversion="3.280" />
+      <units name="Millimeters: mm" symbol="mm" conversion="1000" />
+      <units name="Centimeters: cm" symbol="cm" conversion="100" />
+      <units name="Inches: in" symbol="in" conversion="39.370" />
+      <units name="Kilometers: km" symbol="km" conversion="0.001" />
+      <units name="Miles: mi" symbol="mi" conversion="0.000621" />
+    </data>
+  </script>
+
+
+  <script id="language-en-xml" type="text/xmldata"><?xml version="1.0" encoding="UTF-8"?>
+    <language-en>
+
+      <string name="Lens Calculator">Lencse Kalkulator</string>
+      <string name="Current Value">Aktualis Ertek</string>
+      <string name="Camera">Kamera</string>
+      <string name="Lens">Lencse</string>
+      <string name="Tell me what lens to use">Tell me what lens to use</string>
+      <string name="Focal Length">Gyujtotavolsag</string>
+      <string name="Distance">Tavolsag</string>
+      <string name="Distance result">Tavolsag</string>
+      <string name="Resolution">Felbontas</string>
+      <string name="Field of View">Nezet mez?</string>
+      <string name="Result View">Latott mez?</string>
+      <string name="Image Resolution">Kep Felbontas</string>
+      <string name="Elevation View">Elevation View</string>
+      <string name="Digital Zoom">Digitalis Zoom</string>
+      <string name="Hor.Angle">Hor FOV</string>
+      <string name="Ver.Angle">Ver FOV</string>
+      <string name="Camera Height">Kamera Magassag</string>
+      <string name="Camera Angle">Kamera Szog</string>
+      <string name="Error msg">Please input a number lager than </string>
+
+      <string name="Camera Setting">Camera Beallitas</string>
+      <string name="Sensor info">Sensor tulajdonsagok</string>
+      <string name="Sensor resolution">Felbontas</string>
+      <string name="Sensor Size">Sensor Meret</string>
+      <string name="Pixels">Pixel</string>
+      <string name="Pixel Pitch">Pixel Pitch</string>
+      <string name="Sensor Diagonal">Sensor Diagonal</string>
+      <string name="Cancel">Kilepes</string>
+      <string name="Done">Kesz</string>
+
+      <string name="Lens Setting">Lens Setting</string>
+
+      <string name="Settings">Settings</string>
+      <string name="Image select">Select Image</string>
+      <string name="Unit Select">Unit Select</string>
+      <string name="Language Select">Language Select</string>
+
+      <string name="FOVHeader">Field of view compared to Theia's widest angle SY125 lens</string>
+      <string name="ResHeader">Simulated image resolution at the image center</string>
+      <string name="Input instructions">Set only one variable (yellow), other variables are calculated and results are shown (green)</string>
+      <string name="Distance note">Note: Distance is measured and displayed horizontally, along the ground.  If a camera height is entered, the FOV and resolution will be decreased due to the longer sight line distance</string>
+
+    </language-en>
+  </script>
+
+
+  <script id="language-po-xml" type="text/xmldata"><?xml version="1.0" encoding="UTF-8"?>
+    <language-po>
+
+      <string name="Lens Calculator">Calculadora Lens </string>
+      <string name="Current Value">Valor Atual</string>
+      <string name="Camera">Câmera</string>
+      <string name="Lens">Lens</string>
+      <string name="Tell me what lens to use">Diga-me o que lente usar</string>
+      <string name="Focal Length">Distância Focal</string>
+      <string name="Distance">Distância</string>
+      <string name="Resolution">resolução</string>
+      <string name="Field of View">Campo de Visão</string>
+      <string name="Result View">resultado Vista</string>
+      <string name="Image Resolution">resolução da imagem</string>
+      <string name="Field of View">Campo de Visão</string>
+      <string name="Elevation View">elevação Ver</string>
+      <string name="Digital Zoom">Zoom digital</string>
+      <string name="Hor.Angle">ângulo hor.</string>
+      <string name="Ver.Angle">ângulo vert.</string>
+      <string name="Camera Height">Altura da Câmara</string>
+      <string name="Camera Angle">?ngulo da câmera</string>
+
+      <string name="Camera Setting">Camera Setting</string>
+      <string name="Resolution">resolução</string>
+      <string name="Sensor Size">Tamanho do Sensor</string>
+      <string name="Pixels">pixels</string>
+      <string name="Pixel Pitch">Pixel Pitch</string>
+      <string name="Sensor Diagonal">Sensor Diagonal</string>
+      <string name="Cancel">cancelar</string>
+      <string name="Done">Concluído</string>
+
+      <string name="Lens Setting">Lens Setting</string>
+      <string name="Lens">Lens</string>
+      <string name="Focal Length">Distância Focal</string>
+
+      <string name="Settings">configurações</string>
+      <string name="Unit Select">Selecionar Unidade</string>
+      <string name="Language Select">Language Select</string>
+
+      <string name="FOVHeader">Field of view compared to Theia's widest angle SY125 lens</string>
+      <string name="ResHeader">Simulated image resolution at the image center</string>
+
+    </language-po>
+  </script>
+
+
+  <script id="language-xx-xml" type="text/xmldata"><?xml version="1.0" encoding="UTF-8"?>
+    <language-xx>
+
+      <string name="Lens Calculator">lensCalc </string>
+      <string name="Current Value">curVal</string>
+      <string name="Camera">cam</string>
+      <string name="Lens">lns</string>
+      <string name="Tell me what lens to use">tellMe</string>
+      <string name="Focal Length">FLen</string>
+      <string name="Distance">Dist</string>
+      <string name="Distance result">Dist2</string>
+      <string name="Resolution">res</string>
+      <string name="Field of View">FOV1</string>
+      <string name="Result View">resView</string>
+      <string name="Image Resolution">imRes</string>
+      <string name="Elevation View">eleView</string>
+      <string name="Digital Zoom">digiZoom</string>
+      <string name="Hor.Angle">hAng</string>
+      <string name="Ver.Angle">vAng</string>
+      <string name="Camera Height">camHt</string>
+      <string name="Camera Angle">camAng</string>
+      <string name="Error msg">err</string>
+
+      <string name="Camera Setting">camSet</string>
+      <string name="Sensor resolution">res2</string>
+      <string name="Sensor info">senSel</string>
+      <string name="Sensor Size">size</string>
+      <string name="Pixels">pix</string>
+      <string name="Pixel Pitch">pitch</string>
+      <string name="Sensor Diagonal">diag</string>
+      <string name="Cancel">xx</string>
+      <string name="Done">ok</string>
+
+      <string name="Lens Setting">lensSet</string>
+
+      <string name="Settings">set</string>
+      <string name="Image select">imgSel</string>
+      <string name="Unit Select">unit</string>
+      <string name="Language Select">Lang</string>
+
+      <string name="FOVHeader">fovHead</string>
+      <string name="ResHeader">resHead</string>
+      <string name="Input instructions">inst</string>
+
+    </language-xx>
+  </script>
+
+  <script type="text/javascript" src="js/camera.js"></script>
+  <script type="text/javascript" src="js/lens.js"></script>
+  <script type="text/javascript" src="js/ui.js"></script>
+  <script type="text/javascript" src="js/image_drawing.js" charset="utf-8"></script>
+  <style>
+    a {
+      text-decoration: none;
+      border-bottom: 1px bold blue;
+      font-weight: bold;
+      cursor: url;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="panel panel-blue margin-bottom-40" id="parent"
+    style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 10px; position: relative;">
+    <div class="cover" id="cover" style="display:none;"> </div>
+    <div class="setting_cover" id="setting_cover">
+      <div class="setting_cover_header">
+        <h3 class="panel-title"><i class="icon-reorder"></i> <span id="settings">Settings</span></h3>
+      </div>
+      <div class="bg-light">
+        <h4><i class="icon-trello"></i><span id="image_select">Image Select</span></h4>
+        <select id="image_change" style="width: 148px; margin-left: 25px; margin-top: 10px;">
+        </select>
+        <span class="overlay-zoom" style="margin-top: 15px;"> <img alt="" src="img/wes_FOV.jpg" class="img-responsive"
+            id="img_preview" style="height: 86px;">
+          <div class="zoom-icon"></div>
+        </span>
+      </div>
+      <div class="bg-light">
+        <h4><i class="icon-superscript"></i><span id="unit_setting">Unit Select</span></h4>
+        <select id="unit_change" style="width: 148px; margin-left: 25px; margin-top: 10px;">
+        </select>
+      </div>
+      <div class="bg-light">
+        <h4><i class="icon-globe"></i><span id="language_select">Language Select</span></h4>
+        <select id="language_change" style="width: 148px; margin-left: 25px; margin-top: 10px;">
+          <option value="en.html">English</option>
+          <option value="po.html">Portugues</option>
+          <option value="xx.html">Test</option>
+        </select>
+      </div>
+      <div class="button_group" style="text-align: center; margin-top: 20px;">
+        <button type="submit" class="btn-u btn-u-blue" onclick="closeSettingDia();"
+          style="width: 100px; font-size: 12px;"><span id="done">Done</span></button>
+      </div>
+    </div>
+
+    <!-- camera setting dialog -->
+    <div class="panel panel-blue margin-bottom-40" id="camera_setting_dialog"
+      style="width: 400px; position: absolute; right: 0px; left: 0px; margin-left: auto; margin-right: auto; margin-top: 50px; z-index: 10000; display: none;">
+      <div class="panel-heading">
+        <h3 class="panel-title" style="display: inline-block;"><i class="icon-cog"></i> <span
+            id="camera_setting_span">Camera Setting</span></h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label id="sensor_res" class="col-lg-2 control-label"
+              style="width: 116px; text-align: left;">Resolution</label>
+            <div class="col-lg-10" style="width: 260px;">
+              <select id="cam_res" style="width: 100px; height: 30px;">
+                <option value="0">Select</option>
+              </select>
+              <input type="text" id="cover_cam_res"
+                style="width: 52px; margin-left: -100px; overflow: hidden; border: 0px; line-height: -moz-block-height; background: #fff;"
+                disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label id="sensor_size" class="col-lg-2 control-label" style="width: 116px; text-align: left;">Sensor
+              Size</label>
+            <div class="col-lg-10" style="width: 260px;">
+              <select id="sensor" style="width: 100px; height: 30px;">
+              </select>
+            </div>
+          </div>
+          <div class="form-group clear"
+            style="border-top: 2px solid #3498db; width: 100%; margin-left: auto; margin-top: 20px; margin-right: auto;">
+          </div>
+          <h4 style="text-align: center; font-family: inherit; margin-top: -5px;"><span id="sensor_info">Sensor
+              Info</span></h4>
+          <div class="form-group">
+            <label id="pixels" class="col-lg-2 control-label" style="width: 130px; text-align: left;">Pixels</label>
+            <input type="text" id="hor_pix" style="width: 80px;">
+            <span><i class="icon-asterisk"></i></span>
+            <input type="text" id="ver_pix" style="width: 80px;">
+          </div>
+          <div class="form-group">
+            <label id="pixel_pitch" class="col-lg-2 control-label" style="width: 130px; text-align: left;">Pixel
+              Pitch</label>
+            <input type="text" id="pix_pitch" style="width: 150px;">
+            <input type="text" id="micro_symbol"
+              style="width: 30px; margin-left: -45px; border: 0px; background-color: #fff;" disabled>
+          </div>
+          <div class="form-group">
+            <label id="sensor_diagonal" class="col-lg-2 control-label" style="width: 130px; text-align: left;">Sensor
+              Diagonal</label>
+            <input type="text" id="sen_dia" style="width: 150px;">
+            <input type="text" id="mm_symbol"
+              style="width: 30px; margin-left: -45px; border: 0px; background-color: #fff;" value="mm" disabled>
+          </div>
+          <div class="form-group">
+            <label id="sensor_size" class="col-lg-2 control-label" style="width: 130px; text-align: left;">Sensor
+              Size</label>
+            <input type="text" id="sen_width" style="width: 80px;">
+            <input type="text" id="mm_symbol_sw"
+              style="width: 30px; margin-left: -36px; border: 0px; background-color: #fff;" value="mm" disabled>
+            <span style="margin-left: 25px;"><i class="icon-asterisk"></i></span>
+            <input type="text" id="sen_height" style="width: 80px;">
+            <input type="text" id="mm_symbol_sh"
+              style="width: 30px; margin-left: -36px; border: 0px; background-color: #fff;" value="mm" disabled>
+          </div>
+          <div class="form-group" style="margin-top: 18px; margin-bottom: 0px;">
+            <div class="col-lg-offset-2 col-lg-10" style="text-align: center; width: 100%; margin-left: 0px;">
+              <button id="cancel" type="submit" class="btn-u btn-u-blue" onclick="closeCameraDia();"
+                style="width: 100px; margin-right: 25px; font-size: 12px;"> Cancel</button>
+              <button id="done" type="submit" class="btn-u btn-u-blue" onclick="saveCameraParam();"
+                style="width: 100px; font-size: 12px;"> Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help Dialog -->
+    <div class="panel panel-blue margin-bottom-40" id="help_dialog"
+      style="width: 400px; position: absolute; right: 0px; left: 0px; margin-left: auto; margin-right: auto; margin-top: 50px; z-index: 10000; display: none;">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <i class="icon-info-sign"></i>
+          <span id="lens_setting_span">Detailed Instructions</span>
+          <a href="#" style='float:right' class='close_help' title="close help dialog"><i class="icon-remove" aria-hidden="true"></i></a>
+          </h3>
+      </div>
+      <div class="panel-body">
+        <p>This calculator is to be used as a guide. Always check the specifications for more accurate fields of view</p>
+
+        <p>Step 1: Choose your camera resolution. The most common sensor size for that resolution is chosen automatically. If your camera has a different chip size, you may select it from the chip size drop-down menu. For larger sensor sizes, there may be some dark corners. Check the specifications for maximum sensor size. A vertical cropping of the image can eliminate some dark corners.</p>
+
+        <p>Step 2: Choose the lens. Theia's lenses are listed as well as a general lens type. You may select from the list or enter the focal length or field of view directly into the appropriate boxes. For non-Theia lenses with field of view >60° you will get some curved barrel distortion in the image which is not shown in this calculator.</p>
+
+        <p>Step 3: Choose one of the input parameters: Distance to object, desired image resolution, or field of view. Only one of these three parameters is an independent variable. The other two parameters will be calculated based on the camera-lens combination you selected earlier.</p>
+
+        <p>Output: The parameters and representative images are calculated and displayed. Beware the overview picture doesn't change to reflect the object distance setting. Objects shown in the picture are at a fixed distance which was set when the picture was taken. This overview picture represents the width of the field of view, not the resolution you can expect.</p>
+
+        <p>Patents pending. If you have questions on the use or interpretation of this calculator, you may <a href="https://www.theiatech.com/contact">contact Theia Technologies</a> at 503-570-3296.</p>
+
+        <p>With Theia's Linear Optical Technology &reg; lenses, image resolution for objects along a plane (perpendicular to the camera) is constant even though the objects are farther away from the camera at the image edges. For instance, the person in the image center at 20 feet distance is 37 pixels/ft. At the edge of the image (SY110 lens in this case), the person is still 37 pixels/ft but they are 40 feet away from the camera. Other wide angle lenses will decrease image resolution as the object moves to the edge of the image. For more information, read about <a href="https://www.theiatech.com/white-papers">Theia's Linear Optical Technology &reg;</a></p>
+
+        <p>For technical support using these calculators, please contact Theia <a href="https://www.theiatech.com/contact">customer service</a>.
+
+        <p><a class='btn btn-primary close_help'>Close</a></p>
+      </div>
+    </div>
+
+    <!-- lens setting dialog -->
+
+    <div class="panel panel-blue margin-bottom-40" id="lens_setting_dialog"
+      style="width: 400px; position: absolute; right: 0px; left: 0px; margin-left: auto; margin-right: auto; margin-top: 50px; z-index: 10000; display: none;">
+      <div class="panel-heading">
+        <h3 class="panel-title" style="display: inline-block;"><i class="icon-cog"></i> <span
+            id="lens_setting_span">Lens Setting</span></h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-2 control-label" style="width: 116px; text-align: left;"><span
+                id="lens">Lens</span></label>
+            <div class="col-lg-10" style="width: 260px;">
+              <select id="lens_type" style="width: 142px; height: 30px;">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <h5 id="lens_des"
+              style="text-align: center; font-family: arial; margin-top: 0px; padding-left: 15px; padding-right: 15px; text-align: left; line-height: 25px;">
+            </h5>
+          </div>
+          <div class="form-group clear"
+            style="border-top: 2px solid #3498db; width: 100%; margin-left: auto; margin-top: 15px; margin-right: auto;">
+          </div>
+
+          <div class="form-group" style="margin-top: 25px;">
+            <label id="focal_length_label" class="col-lg-2 control-label" style="width: 130px; text-align: left;">Focal
+              Length</label>
+            <input id="focal_length" type="text" style="width: 150px;">
+            <input type="text" id="mm_symbol"
+              style="width: 30px; margin-left: -118px; border: 0px; background-color: #fff;" value="mm" disabled>
+          </div>
+          <div class="form-group hidefocalength">
+            <div id="focal_scope" style="display: inline-block; margin-left: 60px;"> <span id="start_scope"
+                style="display: inline-block; float: left;">2mm</span>
+              <input id="range" type="range" style="width: 200px; float: left;" min="0" max="100" step="1">
+              <span id="end_scope" style="display: inline-block; float: left;">15mm</span> </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-6" style="display:flex;">
+              <label id="hor_angle" class="control-label"
+                style="width: 80px; text-align: left; float: left;">Hor.Angle</label>
+              <input type="text" id="hor_ang" style="width: 70px; float: left; margin-top: 4px; background-color: #fff;"
+                disabled>
+              <span id="angle_symbol_sw"
+                style="margin: 6px 0 0 -40px">&deg;</span>
+            </div>
+            <div class="col-sm-6" style="display:flex;">
+              <label id="ver_angle" class="control-label"
+                style="margin-right: 1em; text-align: left;">Vert.Angle</label>
+              <input type="text" id="ver_ang"
+                style="width: 70px; margin-top: 4px; background-color: #fff;" disabled>
+              <span id="angle_symbol_sw"
+                style="6px 0 0 -40px;">&deg;</span>
+            </div>
+          </div>
+
+          <div class="form-group" style="padding-right: 14px; padding-left: 17px; display: none;"
+            id="theia_validation_note"> A Theia lens is available for the chosen focal length. Choose <strong
+              id="from_lens"></strong> from the lens list to select the Theia version. </div>
+          <div class="form-group" style="margin-top: 18px; margin-bottom: 0px;">
+            <div class="col-lg-offset-2 col-lg-10" style="text-align: center; width: 100%; margin-left: 0px;">
+              <button id="cancel" type="submit" class="btn-u btn-u-blue" onclick="closeLensDia();"
+                style="width: 100px; margin-right: 25px; font-size: 12px;"> Cancel</button>
+              <button id="done" type="submit" class="btn-u btn-u-blue" onclick="saveLensParam();"
+                style="width: 100px; font-size: 12px; "> Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="xml_data_container" id="xml_data_container" style="display: none;"></div>
+      <div class="xml_data_container_app_picture" id="xml_data_container_app_picture" style="display: none;"></div>
+    </div>
+
+    <!-- main calculator -->
+
+    <div class="panel-heading">
+      <h3 class="panel-title"><i class="icon-camera"></i><span id="lens_calculator">Theia Technologies</span></h3>
+      <p id="sub_menu_show"
+        style="display: inline-block !important; float: right; font-size: 26px; margin-top: -21px; color: #fff; cursor: pointer;">
+        <i class="icon-cog"></i></p>
+      <a id="help_button"
+        style="display: inline-block !important; float: right; font-size: 26px; margin-top: -21px; color: #fff; cursor: pointer; margin-right: .5em;">
+        <i class="icon-info-sign"></i></a>
+    </div>
+    <div class="bg-light">
+      <div class="current_value_content" style="width: 100%; display: inline-block;">
+        <div class="servive-block-in"
+          style="width: 50%; padding-top: 5px; padding-bottom: 3px; box-shadow: 0 0 8px #ddd; border-bottom:none">
+          <div class="item" style="float: left; width: 75px;">
+            <h4 style="width: 140px;">
+              <!--<i class="icon-cog"></i>--><span id="camera">Choose Camera</span></h4>
+          </div>
+        </div>
+        <div class="servive-block-in"
+          style="width: 50%; padding-top: 5px; padding-bottom: 3px; box-shadow: 0 0 8px #ddd; border-bottom:none">
+          <div class="item" style="float: left; width: 67px;">
+            <h4 style="width: 140px;">
+              <!--<i class="icon-cog"></i>--><span id="lens">Choose Lens</span></h4>
+          </div>
+        </div>
+        <div class="servive-block-in" id="camera_setting" style="width: 50%; height: 50px; border-top:none">
+          <div class="item" style="width: 75px; float: left;">
+            <p id="current_camera_res">none</p>
+          </div>
+          <div class="item" style="width: 70px; float: left;">
+            <p id="current_camera_sensor">none</p>
+          </div>
+        </div>
+        <div class="servive-block-in" id="lens_setting"
+          style="width: 50%; height: 50px; border-top:none; border-bottom:none">
+          <div class="item"
+            style="width: 106px; float: left; overflow: hidden; white-space: nowrap !important; text-overflow: ellipsis !important;">
+            <p id="current_lens_name">none</p>
+          </div>
+          <div class="item" style="width: 55px; float: left; margin-right: 0px;">
+            <p id="current_lens_focal_length" style="max-width: 28px; overflow: hidden;">1.28</p>
+            <p id="current_lens_focal_length_unit">mm</p>
+          </div>
+          <!--<div class = "content" style="width: 107%; display: inline-block;">
+        <input type="checkbox" id="choose_lens" style="float: right; margin-right: 48px; margin-top: 2px;">
+        <h4 id="custom_lens_check" style="text-align: center; display: inline-block; font-family: sans-serif; float: right; margin-bottom: 0px; margin-right: 5px;">Tell me what lens to use</h4>
+      </div>-->
+        </div>
+        <div class="servive-block-in" id="focal_length_slider" style="width: 100%; border-top:none">
+          <div class="item" style="float: left; width: 129px;">
+            <h4><i class="icon-exchange"></i><span id="focal_length" style="display: inline-block;">Focal Length</span>
+            </h4>
+          </div>
+          <div id="focal_scope_front" style="display: inline-block;"> <span id="start_scope_front"
+              style="display: inline-block; float: left;">2mm</span>
+            <input id="range_scope" type="range" style="width: 200px; float: left;" min="0" max="100">
+            <span id="end_scope_front" style="display: inline-block; float: left;">15mm</span> </div>
+        </div>
+        <div class="servive-block-in" id="" style="width: 100%; border-bottom:none">
+          <p><span id="input_ins">Set only one variable (yellow), other variables are calculated and results are shown
+              (green) </span></p>
+        </div>
+        <div class="servive-block-in" id="" style="width: 100%; border-top:none">
+          <div class="item" style="position: relative; width: 30%">
+            <label id="distance">Distance</label>
+            <input type="text" id="distance" style="width: 80px;background-color:#FFF96C; padding-left: 3px;">
+            <input type="text" id="distance_symbol"
+              style="width: 30px; border: 0px; margin-left: -34px;" value="ft" disabled>
+          </div>
+          <div class="item" style="position: relative; width: 30%">
+            <label id="resolution">Resolution</label>
+            <input type="text" id="img_res" style="width: 85px;background-color:#FFF96C; padding-left: 3px;">
+            <input type="text" id="distance_symbol_px"
+              style="width: 21px; border: 0px; margin-left: -63px;" value="pix" disabled>
+            <span style="width: 4px; border: 0px; position: relative">/</span>
+            <input type="text" id="distance_symbol"
+              style="width: 30px; border: 0px; position: relative;" value="ft" disabled>
+          </div>
+          <div class="item" style="position: relative; width: 33%">
+            <label id="field_of_view">Field of View</label>
+            <input type="text" id="field_view" style="width: 80px;background-color:#FFF96C; padding-left: 3px;">
+            <input type="text" id="distance_symbol"
+              style="width: 30px; border: 0px; margin-left: -35px;" value="ft" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- results -->
+
+    <div class="bg-light">
+      <!--<h4><i class="icon-windows"></i><span id="result_view">Results are shown in green</span></h4>-->
+      <div class="tab-v2">
+        <div class="tab-content" id="tab-content">
+          <div class="tab-pane active center" id="">
+            <div>
+              <!--<input type="textbox" id="img1_FoV" style="width: 30%;text-align: center;"  disabled />-->
+              <label id="FOVHeaderLabel" style="width: 100%;text-align: center;">Field of view compared to Theia's
+                widest angle SY125 lens</label>
+            </div>
+            <div class="servive-block"
+              style="width: 120%; background-color:white; padding-top:5px; padding-bottom:0%; margin-left:-8%">
+              <div class="item" style="float: left;position: relative;">
+                <label>HFoV</label>
+                <input type="textbox" id="txtHFOV" style="width: 80px;background-color:#B3FFBF" disabled>
+                <input type="text" id="distance_symbol"
+                  style="width: 30px; border: 0px; background-color:#B3FFBF; position: absolute; top: 2px; left: 70px;"
+                  value="ft" disabled>
+                &nbsp; </div>
+              <div class="item" style="float: right; position: relative">
+                <label>VFoV</label>
+                <input type="textbox" id="txtVFOV" style="width: 80px;background-color:#B3FFBF" disabled>
+                <input type="text" id="distance_symbol"
+                  style="width: 30px; border: 0px; background-color:#B3FFBF; position: absolute; top: 2px; left: 70px;"
+                  value="ft" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane active" id="home-1" style="padding-top:2px">
+
+            <!-- field of view -->
+            <div class="img_contener"
+              style="display: inline-block; position: relative; width: 454px; height: 111px; margin-left: 40px; margin-top: 2px;">
+              <img alt="" class="pull-left lft-img-margin img-width-200" id="background" src="img/wes_FOV_bkg.jpg"
+                style="width: 454px; margin: 0px; top: 0px; position: absolute;"> <img alt=""
+                class="pull-left lft-img-margin img-width-200" id="mask" src="img/wes_FOV.jpg"
+                style="width: 454px; margin: 0px; top: 0px; position: absolute; left: 0px;"> </div>
+            <canvas id="canvas_fov_scale" width=454 height=50 style=" margin-left: 40px;"></canvas>
+            <canvas id="canvas_fov_scale_number" width=454 height=50
+              style=" margin-left: 36px; margin-top: -30px;"></canvas>
+            <div class="left_diagonal"
+              style="height: 100px; margin-top: -70px; margin-left: 40px; width: 227px; float: left; position: relative;">
+              <div class="line" style="position: absolute;
+									z-index: 1;
+									left: -10px;
+									width: 248px;
+									height: 1px;
+									background-color: #9090E4;
+									transform: rotate(23deg);
+									-ms-transform: rotate(23deg);
+									-webkit-transform: rotate(23deg);
+									top: 48px;">
+              </div>
+              <div class="item" style="position: relative; float: left; padding-top:45px;padding-left:100px">
+                <label id="distResult">Distance</label>
+                <input type="text" id="distanceResult"
+                  style="width: 80px;position:absolute;top:42px; left:160px;background-color:#B3FFBF" disabled>
+                <input type="text" id="distance_symbol"
+                  style="width: 30px; height: 19px; border: 0px; background-color:#B3FFBF; position: absolute; top: 45px; left: 208px;"
+                  value="ft" disabled>
+              </div>
+            </div>
+            <div class="right_diagonal" style="height: 100px; margin-top: -70px; width: 227px; float: left;">
+              <div class="line" style="position: relative;
+									z-index: 1;
+									left: -10px;
+									width: 248px;
+									height: 1px;
+									background-color: #9090E4;
+									transform: rotate(-23deg);
+									-ms-transform: rotate(-23deg);
+									-webkit-transform: rotate(-23deg);
+									top: 48px;">
+              </div>
+              <div class="tab-pane active center" id=""
+                style=" padding-top:10px;width:100%;padding-left:10px; height:100%;float: right;">
+                <div style="text-align:center;padding-left:40px;">
+                  <!--<input type="textbox" id="img2_FoV" style="width: 60%;text-align: center;"  disabled />-->
+                  <label id="ResHeaderLabel">Simulated image resolution at the image center</label>
+                </div>
+                <div style="width: 100%; background-color:white; padding-top:5px; padding-bottom:0% ">
+                  <div class="item" style="float: left;padding-left:0px; position:relative;">
+                    <label id="imageRes" style="width: 100px; margin-left: 2px">Image Res.</label>
+                    <input type="textbox" id="txtImageRes" style="width: 100px;background:#B3FFBF" disabled />
+                    <input type="text" id="distance_symbol_px"
+                      style="width: 25px;border: 0px;background-color:#B3FFBF;position: absolute;top: 2px;left: 146px;"
+                      value="pix" disabled>
+                    <span
+                      style="width: 4px; border: 0px; background-color:#B3FFBF; position: absolute; top: 4px; left: 168px;">/</span>
+                    <input type="text" id="distance_symbol"
+                      style="width: 30px; border: 0px; background-color:#B3FFBF; position: absolute; top: 2px; left: 173px;"
+                      value="ft" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lens_model" style="text-align: center; margin-left: 40px; margin-right: 40px;"> <img
+                src="img/lens_model.png" alt=""> </div>
+            <div class="form-group" style="margin-top: -57px; width: 240px; float: left; display: inline-block;">
+              <div class="hor_content" style="width: 100%; display: inline-block; margin-bottom: 5px;">
+                <label id="hor_angle" class="col-lg-2 control-label"
+                  style="width: 120px; text-align: left; float: left; margin-top: 5px;">Hor.Angle</label>
+                <input type="text" id="hor_ang"
+                  style="width: 80px; float: left; margin-top: 4px; background-color:#B3FFBF; margin-left: 12px;"
+                  disabled>
+                <input type="text" id="angle_symbol_sw"
+                  style="width: 10px; margin-left: -28px; border: 0px; background-color:#B3FFBF; margin-top: 6px;"
+                  value="&deg;" disabled>
+              </div>
+              <div class="ver_content" style="width: 100%; display: inline-block; margin-bottom: 5px;">
+                <label id="ver_angle" class="col-lg-2 control-label"
+                  style="width: 120px; text-align: left; margin-top: 5px;">Vert.Angle</label>
+                <input type="text" id="ver_ang"
+                  style="width: 80px; margin-top: 4px; background-color:#B3FFBF; margin-left: 12px;" disabled>
+                <input type="text" id="angle_symbol_sw"
+                  style="width: 10px; margin-left: -31px; border: 0px; background-color:#B3FFBF; margin-top: 6px;"
+                  value="&deg;" disabled>
+              </div>
+              <div class="item" style="display: inline-block; width: 100%; margin-bottom: 5px;position: relative">
+                <label id="camera_height" class="col-lg-2 control-label"
+                  style="width: 120px; text-align: left; margin-top: 5px;">Camera Height</label>
+                <input type="number" id="camera_height"
+                  style="width: 80px; margin-left: 12px;background-color:#FFF96C; margin-top: 5px">
+                <input type="text" id="distance_symbol"
+                  style="width: 30px; border: 0px; margin-left: -33px;" value="ft" disabled>
+                <div type="text" id="error_message"
+                  style="width: 228px; border: 0px; background-color: #fff; position: absolute; top: 27px; left: 66px; color: red; z-index: 1000; display: none;">
+                  Non-available Value! <br>
+                  <span id="error_msg">Please input the number lager than <strong
+                      id="available_number">6</strong></span> </div>
+              </div>
+              <div class="item" style="display: inline-block; width: 100%;  margin-bottom: 5px;">
+                <label id="camera_angle" class="col-lg-2 control-label"
+                  style="width: 120px; text-align: left; margin-top: 5px;">Camera Angle</label>
+                <input type="number" id="camera_angle" style="width: 80px; margin-left: 12px;background-color:#FFF96C">
+                <input type="text" id="angle_symbol_sw"
+                  style="width: 10px; margin-left: -31px; border: 0px; background-color:#FFF96C; margin-top: 6px;"
+                  value="&deg;" disabled>
+              </div>
+            </div>
+
+            <!-- image resolution -->
+            <div class="resolution_content"
+              style="display: inline-block; float: right; margin-top: -51px; width: 233px; height: 202px;">
+              <div class="img_contener" id="img_container_resolution" style="display: inline-block;">
+                <canvas id="canvas_resolution" width="280" style="width: 202px; cursor: pointer;"></canvas>
+              </div>
+              <div class="elevation_view_param_container" style="width: 100%; margin-top: 15px;">
+                <div class="item" style="position: relative; display: inline-block; margin-left: -36px;">
+                  <label id="digital_zoom_lbl" style="float: left; margin-right: 6px;">Digital Zoom</label>
+                  <div class="zoom_wrapper" style="display: inline-block;"> <span id="digital_zoom_start"
+                      style="display: inline-block; float: left;">1X</span>
+                    <input id="digital_zoom" type="range" style="width: 158px; float: left;" min="1" max="4" value="1">
+                    <span id="digital_zoom_end" style="display: inline-block; float: left;">4X</span> </div>
+                  <!-- <input type="text" id="digital_zoom" style="width: 50px; background-color: #fff;" value="1" disabled>
+										<input type="text" id="zoom_symbol" style="width: 16px; border: 0px; background-color: #fff; position: absolute; top: 2px; left: 104px;" value="x" disabled> -->
+                </div>
+                <!-- <div class="item" style="margin-right: 0px; position: relative; display: inline-block; margin-left: 30px;">
+										<button type="submit" class="btn-u btn-u-blue" onclick="refreshImageResolutionDraw();" style="width: 83px; font-size: 12px; padding-right: 5px; padding-left: 5px;"><i class="icon-refresh"></i>  Refresh</button>
+									</div> -->
+              </div>
+            </div>
+
+            <!-- elevation view -->
+            <div class="elevation_content" style="display: inline-block; margin-top: 20px;">
+              <div class="img_contener" id="img_container_resolution" style="display: inline-block;">
+                <canvas id="canvas_elevation" width="454" style="cursor: pointer; width: 350px;"></canvas>
+              </div>
+            </div>
+
+            <!-- notes -->
+            <div type="text" style="width: 100%; border: 0px; ">
+              <span id="distance_note">Note: Distance is measured and displayed horizontally, along the ground. If a
+                camera height is entered, the FOV and resolution will be decreased due to the longer sight line
+                distance</span> </div>
+          </div>
+          <div class="tab-pane" id="profile-1"> </div>
+          <div class="tab-pane" id="messages-1"> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<!-- Mirrored from clients.webkey.us/tht/calculator/lens.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 13 Apr 2021 16:14:01 GMT -->
+</html>
