@@ -25,7 +25,7 @@ export default function Footer() {
       </ul>
 
       <div className="footer-copy">
-        © 2025 Network Technologies Kft — Minden jog fenntartva.
+        © 2019 Network Technologies Kft — Minden jog fenntartva.
       </div>
     </footer>
   )
